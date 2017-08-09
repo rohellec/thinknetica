@@ -1,17 +1,11 @@
-print "Please, enter the first quotient of quadratic equation: "
-a = gets.to_f
-
-print "Please, enter the second quotient of quadratic equation: "
-b = gets.to_f
-
-print "Please, enter the third quotient of quadratic equation: "
-c = gets.to_f
+print "Please, enter 3 quotients of quadratic equation: "
+a, b, c = gets.split(/,?\s+/).map { |quo| quo.to_f }
 
 discr = b**2 - 4 * a * c
-sqrt = Math.sqrt(discr)
 print "Discriminant is #{discr}, "
 
 if discr > 0
+  sqrt = Math.sqrt(discr)
   x1 = (-b + sqrt) / 2 * a
   x2 = (-b - sqrt) / 2 * a
   puts "roots: #{x1}, #{x2}"

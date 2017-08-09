@@ -1,23 +1,10 @@
-print "Please, enter the length of the first side of the triangle: "
-side_a = gets.to_f
+print "Please, enter the lengths of all triangle sides: "
 
-print "Please, enter the length of the second side of the triangle: "
-side_b = gets.to_f
+side_a, side_b, side_c = gets.split(/,?\s+/).map { |side| side.to_f }.sort
 
-print "Please, enter the length of the third side of the triangle: "
-side_c = gets.to_f
-
-if side_a > side_b && side_a > side_c
-  hypotenuse, cathetus_a, cathetus_b = side_a, side_b, side_c
-elsif side_b > side_a && side_b > side_c
-  hypotenuse, cathetus_a, cathetus_b = side_b, side_a, side_c
-else
-  hypotenuse, cathetus_a, cathetus_b = side_c, side_a, side_b
-end
-
-if hypotenuse**2 == cathetus_a**2 + cathetus_b**2
+if side_c**2 == side_a**2 + side_b**2
   result = "The triangle is rectangular"
-  result += " and isosceles" if cathetus_a == cathetus_b
+  result += " and isosceles" if side_a == side_b
   puts result
 elsif (side_a == side_b && side_b != side_c) ||
       (side_a == side_c && side_b != side_c) ||
