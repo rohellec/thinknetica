@@ -1,26 +1,14 @@
-days_in_month = {
-  1  => 31,
-  2  => 28,
-  3  => 31,
-  4  => 30,
-  5  => 31,
-  6  => 30,
-  7  => 31,
-  8  => 31,
-  9  => 30,
-  10 => 31,
-  11 => 30,
-  12 => 31
-}
+days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 puts "Please, enter the date (dd-mm-yyy):"
-day, month, year = gets.split(%r{(,?\s+)|-|:|/}).map(&:to_i)
+day, month, year = gets.split(/-/).map(&:to_i)
+puts day, month, year
 
 if (year % 4).zero? && !(year % 100).zero? || (year % 400).zero?
-  days_in_month[2] = 29
+  days_in_month[1] = 29
 end
 
-result = 0
-(1...month).each { |i| result += days_in_month[i] }
+month -= 1
+result = days_in_month[0...month].inject(:+) || 0
 result += day
 puts "Date number from the start of the year is #{result}"
