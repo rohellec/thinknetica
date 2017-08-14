@@ -12,7 +12,7 @@ class Station
     @trains.delete(train)
   end
 
-  def trains(type=nil)
+  def trains(type = nil)
     if type
       @trains.find_all { |train| train.type == train }
     else
