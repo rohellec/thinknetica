@@ -14,12 +14,12 @@ class Train
 
   def assign_route(route)
     @route = route
-    @route.stations.first.receive_train_train(self)
-    @st_index = 0
+    @route.base_station.receive_train(self)
+    @station_index = 0
   end
 
   def current_station
-    @route.stations[@st_index] if @route
+    @route.stations[@station_index] if @route
   end
 
   def hook_wagon
@@ -29,23 +29,23 @@ class Train
   def move_back
     return unless previous_station?
     current_station.send_train(self)
-    previous_station.receive_train(self)
-    @st_index -= 1
+    @station_index -= 1
+    current_station.receive_train(self)
   end
 
   def move_next
     return unless next_station?
     current_station.send_train(self)
-    next_station.receive_train(self)
-    @st_index += 1
+    @station_index += 1
+    current_station.receive_train(self)
   end
 
   def next_station
-    @route.stations[@st_index + 1]
+    @route.stations[@station_index + 1]
   end
 
   def previous_station
-    @route.stations[@st_index - 1] if previous_station?
+    @route.stations[@station_index - 1] if previous_station?
   end
 
   def stop
@@ -63,10 +63,10 @@ class Train
   end
 
   def next_station?
-    @st_index < @route.stations.length
+    @station_index < @route.stations.length
   end
 
   def previous_station?
-    @st_index > 0
+    @station_index > 0
   end
 end
