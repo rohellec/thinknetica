@@ -4,19 +4,16 @@ class Station
     @trains = []
   end
 
-  def receive(train)
+  def receive_train(train)
     @trains << train
   end
 
-  def send(train)
+  def send_train(train)
     @trains.delete(train)
   end
 
   def trains(type = nil)
-    if type
-      @trains.find_all { |train| train.type == train }
-    else
-      @trains
-    end
+    return @trains if type.nil?
+    @trains.find_all { |train| train.type == type }
   end
 end
