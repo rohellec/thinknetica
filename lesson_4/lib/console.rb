@@ -31,16 +31,26 @@ class Console
       print ">"
       input = gets.to_i
       case input
-      when 1 then create_station
-      when 2 then create_train
-      when 3 then route_menu
-      when 4 then assign_route
-      when 5 then hook_wagon
-      when 6 then unhook_wagon
-      when 7 then move_train
-      when 8 then display_stations
-      when 0 then break
-      else wrong_input
+      when 1
+        create_station
+      when 2
+        create_train
+      when 3
+        route_menu
+      when 4
+        assign_route
+      when 5
+        hook_wagon
+      when 6
+        unhook_wagon
+      when 7
+        move_train
+      when 8
+        display_stations
+      when 0
+        break
+      else
+        wrong_input
       end
     end
   end
@@ -90,9 +100,12 @@ class Console
       print ">"
       input = gets.to_i
       case input
-      when 1 then return :cargo
-      when 2 then return :passenger
-      else wrong_input
+      when 1
+        return :cargo
+      when 2
+        return :passenger
+      else
+        wrong_input
       end
     end
   end
@@ -109,11 +122,16 @@ class Console
       print ">"
       input = gets.to_i
       case input
-      when 1 then create_route
-      when 2 then add_stations_to_route
-      when 3 then remove_stations_from_route
-      when 4 then system("clear") && return
-      else wrong_input
+      when 1
+        create_route
+      when 2
+        add_stations_to_route
+      when 3
+        remove_stations_from_route
+      when 4
+        system("clear") && return
+      else
+        wrong_input
       end
     end
   end
@@ -196,15 +214,40 @@ class Console
   def hook_wagon
     system("clear")
     train = choose_train
-    train.hook_wagon
-    puts "Wagon has been hooked to the #{train}!"
+    wagon_number = 0
+    loop do
+      puts "Please, enter the number of the wagon:"
+      print ">"
+      wagon_number = gets.to_i
+      break unless wagon_number.zero?
+      wrong_input
+    end
+    case train.type
+    when :cargo
+      wagon = CargoWagon.new(wagon_number)
+    when :passenger
+      wagon = PassengerWagon.new(wagon_number)
+    end
+    train.hook_wagon(wagon)
+    puts "Wagon #{wagon} has been hooked to the #{train}!"
   end
 
   def unhook_wagon
     system("clear")
     train = choose_train
-    train.unhook_wagon
-    puts "Wagon has been unhooked from the #{train}!"
+    input_wagons = []
+    loop do
+      list_stations(train)
+      puts "Please, enter the indexes of wagons you want to unhook:"
+      print ">"
+      indexes = gets.chomp.split(/\W+/).map(&:to_i)
+      input_wagons = indexes.map { |i| train.wagons[i - 1] }
+      break if input_wagons.any?
+      wrong_input
+    end
+    input_wagons.each { |wagon| train.unhook_wagon(wagon) }
+    system("clear")
+    puts "Wagons #{input_wagons.join(", ")} have been unhooked from the #{train}!"
   end
 
   def move_train
@@ -233,11 +276,16 @@ class Console
       print ">"
       input = gets.to_i
       case input
-      when 1 then move_train_forward(train)
-      when 2 then move_train_backward(train)
-      when 3 then move_train
-      when 4 then system("clear") && return
-      else wrong_input
+      when 1
+        move_train_forward(train)
+      when 2
+        move_train_backward(train)
+      when 3
+        move_train
+      when 4
+        system("clear") && return
+      else
+        wrong_input
       end
     end
   end
@@ -279,10 +327,14 @@ class Console
       print ">"
       input = gets.to_i
       case input
-      when 1 then return :cargo
-      when 2 then return :passenger
-      when 3 then return nil
-      else wrong_input
+      when 1
+        return :cargo
+      when 2
+        return :passenger
+      when 3
+        return nil
+      else
+        wrong_input
       end
     end
   end
@@ -345,6 +397,10 @@ class Console
 
   def list_trains(trains = @trains)
     trains.each_with_index { |train, index| puts "#{index + 1}. #{train}" }
+  end
+
+  def list_wagons(train)
+    train.wagons.each_with_index { |wagon, index| puts "#{index + 1}. Wagon #{wagon}" }
   end
 
   def wrong_input

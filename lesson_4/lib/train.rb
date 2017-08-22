@@ -1,9 +1,8 @@
 class Train
-  attr_reader :number, :route, :speed, :type
+  attr_reader :number, :route, :speed, :type, :wagons
 
-  def initialize(number, type)
+  def initialize(number)
     @number = number
-    @type = type
     @speed = 0
     @wagons = []
   end
@@ -30,7 +29,9 @@ class Train
     route.stations[@station_index] if route
   end
 
-  def hook_wagon
+  def hook_wagon(wagon)
+    return unless stopped?
+    wagons << wagon if correct_type?(wagon)
   end
 
   def move_back
@@ -55,24 +56,18 @@ class Train
     "#{type} train №#{number}"
   end
 
-  def unhook_wagon
-    wagons.pop if stopped?
-  end
-
-  protected
-
-  # Since this methods are used inside subclasses,
-  # they have protected access modifier
-
-  attr_reader :wagons
-
-  def stopped?
-    speed.zero?
+  def unhook_wagon(wagon)
+    return unless stopped?
+    wagons.delete(wagon) if correct_type?(wagon)
   end
 
   private
 
   # This methods are only used inside the class as service functions
+
+  def correct_type?(object)
+    object.type == type
+  end
 
   def next_station
     route.stations[@station_index + 1]
@@ -80,5 +75,9 @@ class Train
 
   def previous_station
     route.stations[@station_index - 1] if previous_station?
+  end
+
+  def stopped?
+    speed.zero?
   end
 end
