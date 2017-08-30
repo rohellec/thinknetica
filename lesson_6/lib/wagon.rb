@@ -20,16 +20,16 @@ class Wagon
   protected
 
   def valid?
-  	validate!
+    validate!
   rescue
-  	false
+    false
   end
 
   private
 
   def validate!
-  	raise "Wagon number can't be zero" if number.zero?
-  	raise "Invalid type" unless VALID_TYPES.include?(type)
-  	true
+    raise "Wagon number can't be zero" if number.zero?
+    raise "Invalid type" unless VALID_TYPES.include?(type)
+    true
   end
 end

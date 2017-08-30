@@ -21,8 +21,8 @@ class Train
     @speed = 0
     @type = type
     @wagons = []
-    @@trains[number] = self
     validate!
+    @@trains[number] = self
   end
 
   def accelerate_by(speed)

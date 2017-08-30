@@ -55,18 +55,16 @@ class Console
   end
 
   def station_creation
-    begin
-      station = create_station
-    rescue e
-      system("clear")
-      puts e.message
-      retry
-    end
+    station = create_station
     system("clear")
     stations << station
     puts "Station #{station} has been created!"
+  rescue StandardError => e
+    system("clear")
+    puts e.message
+    retry
   end
-    
+  
   def create_station
     print "Please, enter the name of the station:\n>"
     name = gets.chomp
@@ -75,16 +73,14 @@ class Console
   end
 
   def train_creation
-    begin
-      train = create_train
-    rescue e
-      system("clear")
-      puts e.message
-      retry
-    end
+    train = create_train
     trains << train
     system("clear")
     puts "#{train.to_s.capitalize} has been created!"
+  rescue StandardError => e
+    system("clear")
+    puts e.message
+    retry
   end
 
   def create_train
@@ -128,16 +124,14 @@ class Console
 
   def route_creation
     check_stations_quantity
-    begin
-      route = create_route
-    rescue e
-      system("clear")
-      puts e.message
-      retry
-    end
+    route = create_route
     routes << route
     system("clear")
     puts "Route #{route} has been created!"
+  rescue StandardError => e
+    system("clear")
+    puts e.message
+    retry
   end
 
   def create_route
@@ -149,35 +143,31 @@ class Console
 
   def add_stations_to_route
     route = choose_route
-    begin
-      prompt_message = "Please, enter the indexes of stations you want to add>"
-      input_stations = enter_stations_with_prompt(prompt_message)
-      input_stations.each { |station| route.add(station) }
-    rescue e
-      system("clear")
-      puts e.message
-      retry
-    end
+    prompt_message = "Please, enter the indexes of stations you want to add"
+    input_stations = enter_stations_with_prompt(prompt_message)
+    input_stations.each { |station| route.add(station) }
     system("clear")
     puts "Stations #{input_stations.join(", ")} have been added to the route #{route}!"
+  rescue StandardError => e
+    system("clear")
+    puts e.message
+    retry
   end
 
   def remove_stations_from_route
     route = choose_route
-    begin
-      prompt_message = "Please, enter the indexes of stations you want to remove"
-      removal_stations = enter_stations_with_prompt(prompt_message)
-      delete_stations_with_trains(removal_stations)
-      removal_stations.each { |station | route.delete(station) }
-    rescue e
-      system("clear")
-      puts e.message
-      retry
-    end
+    prompt_message = "Please, enter the indexes of stations you want to remove"
+    removal_stations = enter_stations_with_prompt(prompt_message)
+    delete_stations_with_trains(removal_stations)
+    removal_stations.each { |station | route.delete(station) }
     system("clear")
     puts "Stations #{removal_stations.join(", ")} have been removed from the route #{route}!"
+  rescue StandardError => e
+    system("clear")
+    puts e.message
+    retry
   end
-
+  
   def assign_route(train = nil)
     train = choose_train unless train
     route = choose_route
@@ -187,16 +177,14 @@ class Console
 
   def hook_wagon
     train = choose_train
-    begin
-      wagon = create_wagon_by_type(train.type)
-    rescue
-      system("clear")
-      puts e.message
-      retry
-    end
+    wagon = create_wagon_by_type(train.type)
     train.hook_wagon(wagon)
     system("clear")
     puts "Wagon #{wagon} has been hooked to the #{train}!"
+  rescue StandardError => e
+    system("clear")
+    puts e.message
+    retry
   end
 
   def create_wagon_by_type(type)
@@ -213,15 +201,13 @@ class Console
 
   def unhook_wagon
     train = choose_train
-    begin
-      removal_wagons = wagons_to_remove_from(train)
-      removal_wagons.each { |wagon| train.unhook_wagon(wagon) }
-    rescue e
-      system("clear")
-      puts e.message
-      retry
-    end
+    removal_wagons = wagons_to_remove_from(train)
+    removal_wagons.each { |wagon| train.unhook_wagon(wagon) }
     puts "Wagons #{removal_wagons.join(", ")} have been unhooked from the #{train}!"
+  rescue StandardError => e
+    system("clear")
+    puts e.message
+    retry
   end
 
   def wagons_to_remove_from(train)
@@ -277,14 +263,14 @@ class Console
   def move_train_forward(train)
     train.move_next
     puts "#{train.to_s.capitalize} has moved to station #{train.current_station}!"
-  rescue e
+  rescue StandardError => e
     puts e.message
   end
 
   def move_train_backward(train)
     train.move_back
     puts "#{train.to_s.capitalize} has moved to station #{train.current_station}!"
-  rescue e
+  rescue StandardError => e
     puts e.message
   end
 
