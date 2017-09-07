@@ -16,8 +16,8 @@ class CargoWagon < Wagon
 
   def take_volume(volume)
     raise "Added volume should be greater then zero" if volume.zero?
-    raise "There is not enough free volume for this wagon" if total_volume == occupied_volume
-    @total_volume += volume
+    raise "There is not enough free volume for this wagon" if occupied_volume + volume >= total_volume
+    @occupied_volume += volume
   end
 
   def to_s

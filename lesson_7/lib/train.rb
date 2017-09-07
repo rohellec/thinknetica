@@ -6,7 +6,7 @@ class Train
   attr_reader :number, :route, :speed, :wagons
 
   NUMBER_FORMAT = /[^\W_]{3}-?[^\W_]{2}/
-  
+
   @@trains = {}
 
   class << self
@@ -33,7 +33,7 @@ class Train
     @station_index = 0
   end
 
-  def each(&block)
+  def each_wagon(&block)
     wagons.each(&block)
   end
 

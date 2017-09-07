@@ -62,7 +62,7 @@ class Console
     system("clear")
     stations << station
     puts "Station #{station} has been created!"
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -79,7 +79,7 @@ class Console
     trains << train
     system("clear")
     puts "#{train.to_s.capitalize} has been created!"
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -106,7 +106,7 @@ class Console
     print "Please, enter the number of the train:\n>"
     number = gets.chomp
     CargoTrain.new(number)
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -116,7 +116,7 @@ class Console
     print "Please, enter the number of the train:\n>"
     number = gets.chomp
     PassengerTrain.new(number)
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -153,7 +153,7 @@ class Console
     routes << route
     system("clear")
     puts "Route #{route} has been created!"
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -173,7 +173,7 @@ class Console
     input_stations.each { |station| route.add(station) }
     system("clear")
     puts "Stations #{input_stations.join(", ")} have been added to the route #{route}!"
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -187,7 +187,7 @@ class Console
     removal_stations.each { |station | route.delete(station) }
     system("clear")
     puts "Stations #{removal_stations.join(", ")} have been removed from the route #{route}!"
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -206,7 +206,7 @@ class Console
     train.hook_wagon(wagon)
     system("clear")
     puts "Wagon №#{wagon.number} has been hooked to the #{train}!"
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -229,7 +229,7 @@ class Console
     volume = gets.to_i
     system("clear")
     CargoWagon.new(number, volume)
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -240,7 +240,7 @@ class Console
     seats = gets.to_i
     system("clear")
     PassengerWagon.new(number, seats)
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -251,7 +251,7 @@ class Console
     removal_wagons = wagons_to_remove_from(train)
     removal_wagons.each { |wagon| train.unhook_wagon(wagon) }
     puts "Wagons #{removal_wagons.join(", ")} have been unhooked from the #{train}!"
-  rescue StandardError => e
+  rescue => e
     system("clear")
     puts e.message
     retry
@@ -310,14 +310,14 @@ class Console
   def move_train_forward(train)
     train.move_next
     puts "#{train.to_s.capitalize} has moved to station #{train.current_station}!"
-  rescue StandardError => e
+  rescue => e
     puts e.message
   end
 
   def move_train_backward(train)
     train.move_back
     puts "#{train.to_s.capitalize} has moved to station #{train.current_station}!"
-  rescue StandardError => e
+  rescue => e
     puts e.message
   end
 
@@ -351,7 +351,7 @@ class Console
     type = choose_train_type
     loop do
       puts "#{type ? type.capitalize : 'All'} trains on station #{station}"
-      station.each_train(type).with_index { |train, index| puts "#{index + 1}. #{train.format}" }
+      station.each_train(type).with_index(1) { |train, index| puts "#{index}. #{train.format}" }
       train = choose_train_from(station.trains(type))
       break if train.nil?
       if train.wagons.any?
@@ -428,10 +428,10 @@ class Console
 
   def fill_cargo_wagon(wagon)
     puts "How much volume do you want to fill?"
-    volume = gets.to_i
+    volume = gets.to_f
     system("clear")
     wagon.take_volume(volume)
-  rescue StandardError => e
+  rescue => e
     puts e.message
     system("clear")
     retry
@@ -439,7 +439,7 @@ class Console
 
   def fill_passenger_wagon(wagon)
     wagon.take_seat
-  rescue StandardError => e
+  rescue => e
     puts e.message
     system("clear")
   end
@@ -523,20 +523,20 @@ class Console
 
   def list_routes
     puts "List of routes:"
-    routes.each_with_index { |route, index| puts "#{index + 1}. Route #{route}" }
+    routes.each.with_index(1) { |route, index| puts "#{index + 1}. Route #{route}" }
   end
 
   def list_stations(stations = @stations)
     puts "List of stations:"
-    stations.each_with_index { |station, index| puts "#{index + 1}. #{station}" }
+    stations.each.with_index(1) { |station, index| puts "#{index + 1}. #{station}" }
   end
 
   def list_trains(trains = @trains)
-    trains.each_with_index { |train, index| puts "#{index + 1}. #{train.format}" }
+    trains.each.with_index(1) { |train, index| puts "#{index + 1}. #{train.format}" }
   end
 
   def list_wagons(train)
-    train.each_wagon.with_index { |wagon, index| puts "#{index + 1}. #{wagon}" }
+    train.each_wagon.with_index(1) { |wagon, index| puts "#{index + 1}. #{wagon}" }
   end
 
   def wrong_input

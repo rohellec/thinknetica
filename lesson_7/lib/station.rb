@@ -41,11 +41,11 @@ class Station
 
   def validate!
     raise "Station name can't be empty" if name.empty?
-    true
   end
 
   def valid?
     validate!
+    true
   rescue
     false
   end

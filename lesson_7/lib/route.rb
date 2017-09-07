@@ -33,17 +33,13 @@ class Route
   private
 
   def validate!
-    if base_station.nil? || final_station.nil?
-      raise "Base and final stations must be mentioned for the route"
-    end
-    if base_station == final_station
-      raise "Base and final stations must be different"
-    end
-    true
+    raise "Base and final stations must be mentioned for the route" if base_station.nil? || final_station.nil?
+    raise "Base and final stations must be different" if base_station == final_station
   end
 
   def valid?
     validate!
+    true
   rescue
     false
   end
