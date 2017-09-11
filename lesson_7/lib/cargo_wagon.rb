@@ -21,7 +21,7 @@ class CargoWagon < Wagon
   end
 
   def to_s
-    "№#{number}, cargo, free volume: #{free_volume}, occupied volume: #{occupied_volume}"
+    "№#{number}, #{type}, free volume: #{free_volume}, occupied volume: #{occupied_volume}"
   end
 
   def type

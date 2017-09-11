@@ -20,7 +20,7 @@ class PassengerWagon < Wagon
   end
 
   def to_s
-    "№#{number}, passenger, free seats: #{free_seats}, occupied seats: #{occupied_seats}"
+    "№#{number}, #{type}, free seats: #{free_seats}, occupied seats: #{occupied_seats}"
   end
 
   def type

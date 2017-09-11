@@ -91,11 +91,9 @@ class Console
       type = gets.chomp.downcase.to_sym
       case type
       when :cargo
-        create_cargo_train
-        break
+        return create_cargo_train
       when :passenger
-        create_passenger_train
-        break
+        return create_passenger_train
       else
         wrong_input
       end
@@ -491,7 +489,7 @@ class Console
       wagon = train.wagons[gets.to_i - 1]
       if wagon
         system("clear")
-        return train
+        return wagon
       else
         wrong_input
       end
@@ -523,20 +521,20 @@ class Console
 
   def list_routes
     puts "List of routes:"
-    routes.each.with_index(1) { |route, index| puts "#{index + 1}. Route #{route}" }
+    routes.each.with_index(1) { |route, index| puts "#{index}. Route #{route}" }
   end
 
   def list_stations(stations = @stations)
     puts "List of stations:"
-    stations.each.with_index(1) { |station, index| puts "#{index + 1}. #{station}" }
+    stations.each.with_index(1) { |station, index| puts "#{index}. #{station}" }
   end
 
   def list_trains(trains = @trains)
-    trains.each.with_index(1) { |train, index| puts "#{index + 1}. #{train.format}" }
+    trains.each.with_index(1) { |train, index| puts "#{index}. #{train.format}" }
   end
 
   def list_wagons(train)
-    train.each_wagon.with_index(1) { |wagon, index| puts "#{index + 1}. #{wagon}" }
+    train.each_wagon.with_index(1) { |wagon, index| puts "#{index}. #{wagon}" }
   end
 
   def wrong_input
