@@ -1,7 +1,7 @@
 require_relative "accessors"
 
 module Company
-  include Accessors
+  extend Accessors
 
   attr_accessor_with_history :company
 end

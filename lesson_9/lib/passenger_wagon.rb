@@ -3,7 +3,7 @@ require_relative "instance_counter"
 require_relative "wagon"
 
 class PassengerWagon < Wagon
-  include Accessors
+  extend Accessors
   include InstanceCounter
 
   attr_accessor_with_history :occupied_seats

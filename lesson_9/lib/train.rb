@@ -4,7 +4,7 @@ require_relative "instance_counter"
 require_relative "validation"
 
 class Train
-  include Accessors
+  extend Accessors
   include Company
   include InstanceCounter
   include Validation
@@ -32,12 +32,9 @@ class Train
         def self.trains
           @trains ||= {}
         end
-
-        def self.validations
-          @validations ||= []
-          @validations |= Train.validations
-        end
       end
+
+      super
     end
   end
 

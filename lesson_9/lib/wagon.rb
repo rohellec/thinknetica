@@ -10,14 +10,6 @@ class Wagon
   validate :number, :presence
   validate :number, :type, Integer
 
-  def self.inherited(subclass)
-    subclass.class_eval do
-      def self.validations
-        @validations |= Wagon.validations
-      end
-    end
-  end
-
   def initialize(number)
     @number = number
   end
