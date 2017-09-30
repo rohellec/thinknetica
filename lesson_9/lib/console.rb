@@ -206,7 +206,7 @@ class Console
            "- #{2 - stations.size} more left."
       print "Do you want to create the station? (Y/n)\n>"
       input = gets.chomp.downcase
-      break unless input.empty? || input =~ "y"
+      break unless input.empty? || input == "y"
       station_creation
     end
   end
@@ -336,7 +336,7 @@ class Console
       puts "Sorry, you need to assign route to this train first!"
       print "Do you want to assign route? (Y/n)\n>"
       input = gets.chomp.downcase
-      return unless input.empty? || input =~ "y"
+      return unless input.empty? || input == "y"
       assign_route(train)
     end
     move_menu(train)

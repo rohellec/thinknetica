@@ -10,9 +10,7 @@ module Validation
 
     def inherited(subclass)
       super_validations = validations
-      subclass.instance_eval do
-        self.validations = super_validations
-      end
+      subclass.validations = validations.dup
     end
   end
 
@@ -26,25 +24,24 @@ module Validation
 
     private
 
-    def validate_format(attr, format)
-      val = send(attr)
+    def validate_format(attr, val, format)
       raise "#{self.class} #{attr} has incorrect format" if val !~ format
     end
 
-    def validate_presence(attr, _option = nil)
-      val = send(attr).to_s.strip
+    def validate_presence(attr, val, _option = nil)
+      val = val.to_s.strip
       raise "#{self.class} #{attr} can't be empty" if val.empty?
     end
 
-    def validate_type(attr, klass)
-      val = send(attr)
+    def validate_type(attr, val, klass)
       raise "#{self.class} #{attr} must be of the class #{klass}" unless val.instance_of?(klass)
     end
 
     def validate!
       self.class.validations.each do |attr, options|
+        val = send(attr)
         options.each do |type, option|
-          send("validate_#{type}", attr, option)
+          send("validate_#{type}", attr, val, option)
         end
       end
     end
